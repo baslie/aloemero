@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALOEMERO — скульптурная мастерская, Томск</title>
+  <meta name="description" content="ALOEMERO — мастерская художественной скульптуры в Томске. Парковая и интерьерная скульптура, барельефы, фигуры для фонтанов. Полный цикл от эскиза до монтажа.">
+
+  <!-- Запрет индексации (страница временно скрыта от поисковиков).
+       robots.txt в этом репозитории НЕ корневой для домена, поэтому
+       основная защита — мета-теги ниже. Когда сайт можно публиковать,
+       удалить блок целиком. -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, max-snippet:-1, max-image-preview:none, max-video-preview:-1">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot-news" content="noindex, nofollow">
+  <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="yandex" content="noindex, nofollow, noarchive, nosnippet">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ALOEMERO — скульптурная мастерская, Томск">
+  <meta property="og:description" content="Художественная скульптура: парковая и интерьерная. Ручная лепка, индивидуальная палитра под помещение.">
+  <meta property="og:image" content="assets/img/logo.jpg">
+  <meta property="og:type" content="website">
+
+  <!-- Favicons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#09090b">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Только фактически используемые в разметке веса (font-normal/medium/semibold/bold + italic 400). -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+
+  <!-- GLightbox CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+
+  <script>
+    /* Семантические цвета сайта — все ссылаются на CSS-переменные из :root.
+       Меняешь значение в :root → меняется по всему сайту. */
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          borderRadius: {
+            tile: '2.5rem',
+          },
+          colors: {
+            page:           'var(--color-page)',
+            surface:        'var(--color-surface)',
+            'surface-dark': 'var(--color-surface-dark)',
+            badge:          'var(--color-badge)',
+            ink: {
+              DEFAULT: 'var(--color-ink)',
+              strong:  'var(--color-ink-strong)',
+              muted:   'var(--color-ink-muted)',
+              subtle:  'var(--color-ink-subtle)',
+              faint:   'var(--color-ink-faint)',
+            },
+            'on-dark': {
+              DEFAULT: 'var(--color-on-dark)',
+              muted:   'var(--color-on-dark-muted)',
+              faint:   'var(--color-on-dark-faint)',
+            },
+            line: {
+              DEFAULT: 'var(--color-line)',
+              strong:  'var(--color-line-strong)',
+            },
+          },
+        }
+      }
+    }
+  </script>
+
+  <style type="text/tailwindcss">
+    /* ============================================================
+       ПАЛИТРА САЙТА. Все цвета централизованы здесь.
+       Достаточно поменять значение — обновится везде.
+       ============================================================ */
+    :root {
+      /* Фон страницы и поверхности карточек.
+         Тёмная палитра zinc-* (холодный антрацит без тёплого подтона).
+         Иерархия: страница zinc-950 → .card-dark zinc-800 → hover zinc-700. */
+      --color-page:               #09090b; /* zinc-950 — фон страницы */
+      --color-surface:            #18181b; /* zinc-900 — вторичная подложка */
+      --color-surface-hover:      #27272a; /* zinc-800 — hover вторичной подложки */
+      --color-surface-dark:       #27272a; /* zinc-800 — акцент-карточка (.card-dark), светлее страницы */
+      --color-surface-dark-hover: #3f3f46; /* zinc-700 — hover акцент-карточки */
+      --color-badge:              #181818; /* заливка пилюль-бейджиков (.process-step) — темнее карточек */
+
+      /* Текст на фоне страницы (тёмный фон → светлый текст) */
+      --color-ink:           #fafafa; /* zinc-50 — основной */
+      --color-ink-strong:    #fafafa; /* zinc-50 — усиленный */
+      --color-ink-muted:     #a1a1aa; /* zinc-400 — описания */
+      --color-ink-subtle:    #71717a; /* zinc-500 — лейблы */
+      --color-ink-faint:     #52525b; /* zinc-600 — second-tier подписи */
+
+      /* Текст на тёмных акцент-карточках и цветных CTA */
+      --color-on-dark:       #fafafa; /* zinc-50 */
+      --color-on-dark-muted: #d4d4d8; /* zinc-300 */
+      --color-on-dark-faint: #a1a1aa; /* zinc-400 */
+
+      /* Границы и рамки */
+      --color-line:          #27272a; /* zinc-800 */
+      --color-line-strong:   #3f3f46; /* zinc-700 */
+
+      /* Тёплый кремовый акцент (ваниль / гипс / шамот).
+         Используется для italic-выделений и точечных смысловых акцентов
+         внутри светлого текста — добавляет тепла на холодную zinc-страницу. */
+      --color-accent:        #f3e9d2; /* cream */
+
+      /* Палитра инверсии .card на hover: карточка становится светлой плашкой,
+         текст внутри — тёмным. Значения соответствуют светлой шкале zinc. */
+      --color-card-hover-bg:         #fafafa; /* zinc-50  — фон светлой плашки */
+      --color-card-hover-ink:        #09090b; /* zinc-950 — основной/усиленный текст */
+      --color-card-hover-ink-muted:  #3f3f46; /* zinc-700 — описания */
+      --color-card-hover-ink-subtle: #52525b; /* zinc-600 — лейблы */
+      --color-card-hover-ink-faint:  #71717a; /* zinc-500 — second-tier подписи */
+
+      /* Подложка bento-карточек (.card).
+         По умолчанию — тёмная, чуть светлее страницы, на hover
+         плавно белеет (zinc-50) — карточка инвертируется в светлую плашку.
+         Цвет расцеплён с --color-line: границы остаются zinc-800, а карточки темнее. */
+      --card-bg:       #181818;            /* фон в покое */
+      --card-bg-hover: var(--color-ink);   /* zinc-50 — белый на hover */
+
+      /* ============================================================
+         CTA-плитки контактного ряда — опорные точки градиентов
+         + готовые градиенты на их основе.
+         Меняя точку, перекрашиваешь и hover, и сам фон.
+         ============================================================ */
+      --cta-steel-1:    #e4e4e7; /* zinc-200 — верхний блик (платина) */
+      --cta-steel-2:    #a1a1aa; /* zinc-400 */
+      --cta-steel-3:    #71717a; /* zinc-500 */
+      --cta-steel-4:    #52525b; /* zinc-600 — затемнение */
+
+      --cta-telegram-1: #5BC4F1; /* светлее основного — блик */
+      --cta-telegram-2: #229ED9; /* фирменный Telegram */
+      --cta-telegram-3: #0F75A8; /* затемнение */
+
+      --cta-channel-1:  #fbbf24; /* amber-400 */
+      --cta-channel-2:  #f43f5e; /* rose-500  */
+      --cta-channel-3:  #c026d3; /* fuchsia-600 */
+
+      --cta-phone-1:    #34d399; /* emerald-400 — блик */
+      --cta-phone-2:    #10b981; /* emerald-500 — фирменный */
+      --cta-phone-3:    #047857; /* emerald-700 — затемнение */
+
+      --cta-gradient-steel:    linear-gradient(135deg, var(--cta-steel-1) 0%, var(--cta-steel-2) 35%, var(--cta-steel-3) 70%, var(--cta-steel-4) 100%);
+      --cta-gradient-telegram: linear-gradient(135deg, var(--cta-telegram-1) 0%, var(--cta-telegram-2) 55%, var(--cta-telegram-3) 100%);
+      --cta-gradient-channel:  linear-gradient(135deg, var(--cta-channel-1) 0%, var(--cta-channel-2) 55%, var(--cta-channel-3) 100%);
+      --cta-gradient-phone:    linear-gradient(135deg, var(--cta-phone-1) 0%, var(--cta-phone-2) 55%, var(--cta-phone-3) 100%);
+    }
+
+    @layer base {
+      html { scroll-behavior: smooth; }
+      body {
+        @apply bg-page font-sans text-ink antialiased;
+        min-height: 100vh;
+      }
+      /* Инверсия — белый фон + тёмный текст, заметное выделение на тёмной странице. */
+      ::selection { background: var(--color-ink); color: var(--color-page); }
+      /* Логотип — чёрный рисунок на белом фоне (JPG). Инвертируем фильтром,
+         чтобы получить белый рисунок и тёмную плашку, сливающуюся со страницей. */
+      .logo-invert { filter: invert(1); }
+      /* Тёплый кремовый акцент для смысловых выделений в hero. */
+      .text-accent { color: var(--color-accent); }
+    }
+    @layer components {
+      /* Базовая bento-сетка 3-кол. на mobile / 6-кол. на desktop с фирменными гэпами.
+         Используется во всех рядах «что делаем / галерея / где используем». */
+      .bento-grid { @apply grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-4 lg:gap-5; }
+      /* Унифицированные внутренние отступы карточек.
+         -lg — для крупных секций (hero, «что делаем»),
+         базовый — для стандартных bento-карточек. */
+      .bento-pad     { @apply p-5 md:p-7; }
+      .bento-pad-lg  { @apply p-5 md:p-8; }
+
+      /* Bento-карточки со сплошной тёмной подложкой (#181818).
+         Никаких рамок — только фон. На hover карточка инвертируется
+         в светлую плашку (см. .card:hover ниже). */
+      .card {
+        @apply rounded-tile text-ink ease-out;
+        background-color: var(--card-bg);
+        transition: background-color 300ms ease-out;
+      }
+      .card-dark { @apply bg-surface-dark rounded-tile text-on-dark transition-colors duration-300 ease-out; }
+      /* Hover-эффекты. Применяются ко всем бенто-карточкам, кроме фото-плиток
+         и CTA-блоков (у них собственные эффекты — zoom и brightness).
+         Только на устройствах с указателем (hover: hover) — иначе на тач-экранах
+         состояние «залипало» бы после тапа. */
+      @media (hover: hover) {
+        /* .card на hover инвертируется в светлую плашку:
+           - подложка белеет (zinc-50);
+           - текст автоматически перекрашивается в тёмный, потому что text-ink-*
+             классы читают значения CSS-переменных, которые мы локально пересдвигаем.
+           Process-step пилюли внутри остаются тёмными — на белой плашке выглядят как акцент. */
+        .card:hover {
+          background-color: var(--card-bg-hover);
+          --color-ink:        var(--color-card-hover-ink);
+          --color-ink-strong: var(--color-card-hover-ink);
+          --color-ink-muted:  var(--color-card-hover-ink-muted);
+          --color-ink-subtle: var(--color-card-hover-ink-subtle);
+          --color-ink-faint:  var(--color-card-hover-ink-faint);
+        }
+        .card-dark:hover { background-color: var(--color-surface-dark-hover); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .card, .card-dark { transition: none; }
+      }
+      /* Квадратные фото-плитки */
+      .photo-tile {
+        @apply block relative overflow-hidden rounded-tile aspect-square;
+      }
+      .photo-tile img {
+        @apply absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out;
+      }
+      .photo-tile:hover img {
+        @apply scale-[1.06];
+      }
+      /* Плитка галереи: общие сеточные/курсорные классы.
+         Маркер .glightbox и базовый .photo-tile остаются в HTML
+         (glightbox обязан быть в DOM — по нему GLightbox JS инициализирует лайтбокс). */
+      .gallery-tile {
+        @apply col-span-1 cursor-zoom-in;
+      }
+      /* Шаги «полного цикла» — пилюли с фирменной тёмной заливкой. */
+      .process-step {
+        @apply px-2.5 py-1 bg-badge rounded-md text-sm font-medium text-on-dark;
+      }
+      .process-arrow {
+        @apply text-ink-faint;
+      }
+      /* CTA-плитки контактного ряда — контент центрирован по горизонтали. */
+      .cta-tile {
+        @apply rounded-tile p-6 md:p-7 flex flex-col items-center text-center gap-2 transition-all duration-200;
+      }
+      .cta-tile-title {
+        @apply block text-xl lg:text-2xl font-semibold tracking-tight;
+      }
+      .cta-tile-sub {
+        @apply text-xs;
+      }
+      /* Градиентные подложки CTA-плиток — все цвета централизованы в :root.
+         background-image не конфликтует с hover:brightness-* (Tailwind). */
+      .cta-steel    { background-image: var(--cta-gradient-steel); }
+      .cta-telegram { background-image: var(--cta-gradient-telegram); }
+      .cta-channel  { background-image: var(--cta-gradient-channel); }
+      .cta-phone    { background-image: var(--cta-gradient-phone); }
+      .label {
+        @apply text-[10px] uppercase tracking-[0.18em] text-ink-subtle font-medium;
+      }
+      .label-light {
+        @apply text-[10px] uppercase tracking-[0.18em] text-on-dark-faint font-medium;
+      }
+      /* Внутри bento-карточек надзаголовок разделён на два span:
+         слева — смысловой текст, справа — номер раздела.
+         flex + justify-between прижимает первый child к левому краю, последний — к правому.
+         w-full на CTA-плитках нужен потому, что родитель .cta-tile центрирует контент
+         (items-center) — без w-full label сжался бы по ширине контента и justify-between
+         работал бы внутри сжатого span'a, а не на всю карточку. */
+      .card .label,
+      .card .label-light,
+      .card-dark .label,
+      .card-dark .label-light,
+      .cta-tile .label-on-color {
+        @apply flex justify-between items-baseline gap-3 w-full;
+      }
+      /* Label поверх цветного фона — цвет/прозрачность задаёт сам элемент */
+      .label-on-color {
+        @apply text-[10px] uppercase tracking-[0.18em] font-medium;
+      }
+      .h-display {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.035em;
+        line-height: 1;
+      }
+      .h-section {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-weight: 600;
+        letter-spacing: -0.022em;
+        line-height: 1.1;
+      }
+      /* Унифицированная иерархия заголовков bento-карточек.
+         Цвет задаётся самим элементом (text-ink / text-on-dark). */
+      .bento-title-lg { @apply h-section text-2xl md:text-3xl; } /* секционные карточки */
+      .bento-title    { @apply h-section text-xl md:text-2xl; }  /* обычные карточки */
+      .bento-stat     { @apply h-display text-4xl md:text-5xl; } /* display-акцент (число, короткое слово) */
+    }
+  </style>
+</head>
+<body>
+
+  <main id="top" class="w-full px-4 md:px-8 lg:px-12 pt-6 md:pt-10 space-y-3 md:space-y-4 lg:space-y-5 flex flex-col md:block">
+
+    <!--
+      ============================================================
+      РЯД 1: Логотип (1×1) + Hero текст (5×1)
+      ============================================================
+    -->
+    <section class="order-1 grid grid-cols-1 md:grid-cols-6 gap-0 md:gap-4 lg:gap-5">
+
+      <div class="aspect-square rounded-tile overflow-hidden w-32 md:w-auto md:col-span-1">
+        <img
+          src="assets/img/logo.jpg"
+          alt="Логотип ALOEMERO"
+          class="w-full h-full object-cover logo-invert"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+
+      <div class="bento-pad-lg flex flex-col justify-center md:col-span-5">
+        <span class="label">Скульптурная мастерская · Томск · с&nbsp;2020</span>
+        <h1 class="h-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-ink mt-3">
+          Авторская <span class="italic font-normal text-accent">скульптура</span> ручной работы, которая становится частью пространства.
+        </h1>
+        <p class="text-ink-muted text-sm md:text-base mt-3">
+          Мастерская ALOEMERO работает больше 5&nbsp;лет. Делаем художественную скульптуру: парковую (включая садово-парковую) и&nbsp;интерьерную.
+        </p>
+      </div>
+    </section>
+
+    <!--
+      ============================================================
+      РЯД 2: «Что делаем» — две отдельные карточки (3+3)
+      ============================================================
+    -->
+    <section id="works" class="order-3 md:order-none bento-grid">
+
+      <div class="col-span-3 md:col-span-3 card bento-pad-lg flex flex-col">
+        <span class="label"><span>Что делаем · экстерьер</span><span>02</span></span>
+        <h2 class="bento-title-lg text-ink mt-3">Парковая и&nbsp;садово-парковая скульптура</h2>
+        <p class="text-ink-muted text-sm md:text-base mt-3">Статуи, фигуры для&nbsp;фонтанов, оформление входных групп, малые архитектурные формы.</p>
+      </div>
+
+      <div class="col-span-3 md:col-span-3 card bento-pad-lg flex flex-col">
+        <span class="label"><span>Что делаем · интерьер</span><span>02</span></span>
+        <h2 class="bento-title-lg text-ink mt-3">Интерьерная скульптура и&nbsp;декор</h2>
+        <p class="text-ink-muted text-sm md:text-base mt-3">Имитация скал и&nbsp;рельефа, барельефы, горельефы, декоративные элементы интерьера.</p>
+      </div>
+    </section>
+
+    <!--
+      ============================================================
+      РЯД 3: Photos 01-06 (шесть квадратов в ряд на desktop, три на mobile)
+      ============================================================
+    -->
+    <section class="order-2 md:order-none bento-grid">
+      <a href="assets/img/gallery/01.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/01.jpg" alt="Парковый бронзовый фонтан с&nbsp;фигурой женщины" loading="eager" decoding="async"></a>
+      <a href="assets/img/gallery/02.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/02.jpg" alt="Скульптурная работа" loading="lazy" decoding="async"></a>
+      <a href="assets/img/gallery/03.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/03.jpg" alt="Скульптурная работа в&nbsp;интерьере" loading="lazy" decoding="async"></a>
+      <a href="assets/img/gallery/04.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/04.jpg" alt="Интерьерная скульптура крупного формата" loading="lazy" decoding="async"></a>
+      <a href="assets/img/gallery/05.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/05.jpg" alt="Скульптурная работа" loading="lazy" decoding="async"></a>
+      <a href="assets/img/gallery/06.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/06.jpg" alt="Скульптурная работа" loading="lazy" decoding="async"></a>
+    </section>
+
+    <!--
+      ============================================================
+      РЯД 4: Где используем · Жилые + Коммерческие + Чем отличаются
+      ============================================================
+    -->
+    <section class="order-4 md:order-none bento-grid">
+
+      <div class="col-span-3 md:col-span-2 card-dark bento-pad flex flex-col justify-between">
+        <span class="label-light"><span>Чем отличаются ALOEMERO</span><span>03</span></span>
+        <p class="h-section text-xl md:text-2xl lg:text-3xl text-white my-4">
+          Ручная лепка, плотные объёмы, индивидуальная палитра под&nbsp;помещение.
+        </p>
+        <p class="text-on-dark-muted text-xs md:text-sm">
+          Каждая работа авторская и&nbsp;проектируется под&nbsp;конкретное пространство.
+        </p>
+      </div>
+
+      <div class="col-span-3 md:col-span-2 card bento-pad flex flex-col">
+        <span class="label"><span>Где используем · жилое</span><span>04</span></span>
+        <h3 class="bento-title text-ink mt-3">Жилые пространства</h3>
+        <div class="grid grid-cols-1 gap-y-2 mt-4 text-ink-strong text-sm md:text-base">
+          <span>· Гостиные</span>
+          <span>· Ванные комнаты</span>
+          <span>· Кухонные зоны</span>
+          <span>· Зоны отдыха</span>
+        </div>
+      </div>
+
+      <div class="col-span-3 md:col-span-2 card bento-pad flex flex-col">
+        <span class="label"><span>Где используем · коммерция</span><span>05</span></span>
+        <h3 class="bento-title text-ink mt-3">Коммерческие пространства</h3>
+        <div class="grid grid-cols-1 gap-y-2 mt-4 text-ink-strong text-sm md:text-base">
+          <span>· Барные стойки</span>
+          <span>· Ресепшены</span>
+          <span>· Торговые залы</span>
+          <span>· Акцентные стены</span>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      ============================================================
+      РЯД 5: Photos 07-12 (шесть квадратов в ряд)
+      ============================================================
+    -->
+    <section class="order-5 md:order-none bento-grid">
+      <a href="assets/img/gallery/07.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/07.jpg" alt="Три барельефа на&nbsp;кирпичной стене с&nbsp;подсветкой" loading="lazy" decoding="async"></a>
+      <a href="assets/img/gallery/08.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/08.jpg" alt="Скульптурная работа крупным планом" loading="lazy" decoding="async"></a>
+      <a href="assets/img/gallery/09.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/09.jpg" alt="Скульптурная работа" loading="lazy" decoding="async"></a>
+      <a href="assets/img/gallery/10.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/10.jpg" alt="Скульптурная работа в&nbsp;интерьере" loading="lazy" decoding="async"></a>
+      <a href="assets/img/gallery/11.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/11.jpg" alt="Скульптурная работа" loading="lazy" decoding="async"></a>
+      <a href="assets/img/gallery/12.jpg" class="gallery-tile photo-tile glightbox" data-gallery="works"><img src="assets/img/gallery/12.jpg" alt="Скульптурная работа" loading="lazy" decoding="async"></a>
+    </section>
+
+    <!--
+      ============================================================
+      РЯД 6-7: 6 блоков двумя рядами по 3 на десктопе
+               (06 Полный цикл / 07 Прочность / 08 Стоимость
+              · 09 Сроки / 10 Гипс / 11 Атмосферостойкие)
+      ============================================================
+    -->
+    <section id="process" class="order-6 md:order-none grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 lg:gap-5">
+
+      <div class="card bento-pad flex flex-col justify-between gap-4">
+        <span class="label"><span>Полный цикл</span><span>06</span></span>
+        <div class="flex flex-wrap items-center gap-2 md:gap-3">
+          <span class="process-step">Эскиз</span>
+          <span class="process-arrow">→</span>
+          <span class="process-step">Визуализация</span>
+          <span class="process-arrow">→</span>
+          <span class="process-step">Изготовление</span>
+          <span class="process-arrow">→</span>
+          <span class="process-step">Доставка</span>
+          <span class="process-arrow">→</span>
+          <span class="process-step">Монтаж</span>
+        </div>
+        <p class="text-ink-muted text-xs md:text-sm">Ведём проект целиком&nbsp;— от&nbsp;первого эскиза до&nbsp;установки на&nbsp;месте.</p>
+      </div>
+
+      <div class="card p-5 md:p-6 flex flex-col justify-between">
+        <span class="label"><span>Прочность</span><span>07</span></span>
+        <h3 class="bento-title text-ink my-3">Армированные составы</h3>
+        <p class="text-ink-strong text-xs md:text-sm">Не&nbsp;боятся влаги, температурных перепадов и&nbsp;механических нагрузок.</p>
+      </div>
+
+      <div class="card bento-pad flex flex-col gap-4">
+        <div>
+          <span class="label"><span>Стоимость</span><span>08</span></span>
+          <h3 class="bento-title text-ink mt-3">Считаем индивидуально</h3>
+        </div>
+        <p class="text-ink-muted text-sm md:text-base">
+          Каждая скульптура авторская и&nbsp;привязана к&nbsp;пространству. На&nbsp;цену влияют художественная концепция, габариты, материалы и&nbsp;сроки производства.
+        </p>
+      </div>
+
+      <div class="card bento-pad flex flex-col gap-3">
+        <div>
+          <span class="label"><span>Материалы · улица</span><span>09</span></span>
+          <h3 class="bento-title text-ink mt-3">Атмосферостойкие составы</h3>
+        </div>
+        <p class="text-ink-muted text-sm">
+          Для&nbsp;уличных работ&nbsp;— устойчивые к&nbsp;перепадам температур, влажности и&nbsp;механическим нагрузкам.
+        </p>
+      </div>
+
+      <div class="card bento-pad flex flex-col gap-3">
+        <div>
+          <span class="label"><span>Материалы · интерьер</span><span>10</span></span>
+          <h3 class="bento-title text-ink mt-3">Гипс</h3>
+        </div>
+        <p class="text-ink-muted text-sm">
+          Пластичный, быстро схватывается, держит мелкую детализацию.
+        </p>
+      </div>
+
+      <div class="card-dark p-5 md:p-6 flex flex-col justify-between text-center">
+        <span class="label-light"><span>Сроки</span><span>11</span></span>
+        <div class="my-2">
+          <div class="bento-stat text-white">15–30</div>
+          <p class="text-on-dark-muted text-xs md:text-sm mt-2">календарных дней</p>
+        </div>
+        <p class="text-on-dark-faint text-[11px]">с&nbsp;момента, как&nbsp;утвердили визуализацию</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== РЯД 8: КОНТАКТЫ (full-bleed подложка) ==========
+       Вынесено из <main>, чтобы подложка bg-surface растягивалась
+       во всю ширину viewport без negative margin. -->
+  <section id="contacts" class="w-full bg-surface px-4 md:px-8 lg:px-12 py-3 md:py-4 lg:py-5 mt-3 md:mt-4 lg:mt-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-5">
+
+      <a href="https://t.me/aloemero"
+         class="cta-tile cta-steel text-zinc-900 hover:brightness-105">
+        <span class="label-on-color text-zinc-700"><span>Запись</span><span>12</span></span>
+        <span class="cta-tile-title">Консультация</span>
+        <p class="cta-tile-sub text-zinc-600">Запись → расчёт → эскиз</p>
+      </a>
+
+      <a href="https://t.me/aloemero"
+         class="cta-tile cta-telegram text-white hover:brightness-110">
+        <span class="label-on-color text-white/70"><span>Telegram</span><span>13</span></span>
+        <span class="cta-tile-title">@aloemero</span>
+        <p class="cta-tile-sub text-white/80">Личные сообщения · быстрый ответ</p>
+      </a>
+
+      <a href="https://t.me/masterskaa_aloemero"
+         class="cta-tile cta-channel text-white hover:brightness-110">
+        <span class="label-on-color text-white/80"><span>Канал работ</span><span>14</span></span>
+        <span class="cta-tile-title break-all">masterskaa_aloemero</span>
+        <p class="cta-tile-sub text-white/85">Архив работ и&nbsp;анонсы</p>
+      </a>
+
+      <a href="tel:+79136459022"
+         class="cta-tile cta-phone text-white hover:brightness-110">
+        <span class="label-on-color text-white/80"><span>Телефон</span><span>15</span></span>
+        <span class="cta-tile-title">8&nbsp;913&nbsp;645&nbsp;90&nbsp;22</span>
+        <p class="cta-tile-sub text-white/85">Звонок · WhatsApp · Viber</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- GLightbox JS -->
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js" defer></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      GLightbox({ selector: '.glightbox', loop: true });
+    });
+  </script>
+
+  <!-- ========== FOOTER ==========
+       Десктоп (lg+): два блока — копирайт слева, автор сайта справа.
+       Планшет/мобильник (<lg): одна колонка по центру. -->
+  <footer class="w-full px-4 md:px-8 lg:px-12 py-8">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 text-xs text-ink-subtle text-center lg:text-left">
+      <p>© ALOEMERO · Скульптурная мастерская · Томск</p>
+      <p class="lg:text-right">Сайт разработал <a href="https://roman-purtow.ru" target="_blank" rel="noopener noreferrer nofollow" class="inline-flex items-center gap-1 align-middle underline hover:text-ink transition-colors whitespace-nowrap"><svg class="w-4 h-4 shrink-0" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="120" rx="35" fill="#F6522E"></rect><path d="M35.0724 93.5249C34.914 89.9351 34.8348 85.9759 34.8348 81.6471C34.8348 77.4766 34.914 73.0422 35.0724 68.3439C35.2308 63.6456 35.4683 58.8944 35.7851 54.0905C36.1018 49.2338 36.5241 44.509 37.052 39.9163C36.2074 40.1275 35.3891 40.3386 34.5973 40.5498C33.8582 40.7081 33.1719 40.8929 32.5385 41.1041L28.5 28.5136C41.2753 25.5045 51.9125 24 60.4118 24C77.6742 24 86.3054 30.5724 86.3054 43.7172C86.3054 49.8937 84.2466 54.8032 80.129 58.4457C76.0113 62.0354 69.9668 64.3054 61.9955 65.2557C66.7994 69.3205 71.6297 72.6727 76.4864 75.3122C81.3959 77.8989 86.3582 80.0897 91.3733 81.8846L82.6629 93.5249C79.865 92.5219 76.9351 91.1229 73.8733 89.3281C70.8115 87.5332 67.776 85.5535 64.767 83.3891C61.7579 81.2247 58.8808 79.0339 56.1357 76.8167C53.4434 74.5996 51.0415 72.5407 48.9299 70.6403C48.8771 74.2828 48.8243 77.9781 48.7715 81.7262C48.7715 85.4216 48.7715 89.2489 48.7715 93.2081L48.2964 93.6833C46.2903 93.6833 44.1259 93.6833 41.8032 93.6833C39.5332 93.736 37.4744 93.8416 35.6267 94L35.0724 93.5249ZM59.6991 36.5905C58.221 36.5905 56.69 36.6697 55.1063 36.8281C53.5226 36.9336 51.9389 37.092 50.3552 37.3032C50.144 40.2594 49.9593 43.1893 49.8009 46.0928C49.6425 48.9434 49.5106 51.7941 49.405 54.6448C51.7278 54.592 54.2353 54.46 56.9276 54.2489C59.6727 53.9849 62.2594 53.5098 64.6878 52.8235C67.1161 52.0845 69.0958 51.0287 70.6267 49.6561C72.2104 48.2836 73.0023 46.4623 73.0023 44.1923C73.0023 41.5528 71.9201 39.6259 69.7557 38.4118C67.5913 37.1976 64.2391 36.5905 59.6991 36.5905Z" fill="white"></path></svg>Роман Пуртов</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
